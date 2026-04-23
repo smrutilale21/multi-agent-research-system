@@ -53,3 +53,13 @@ Planner Agent
 Researcher Agent
    ↓
 Final Answer
+
+## Project Structure
+
+```text
+app.py        → entry point
+graph.py      → LangGraph workflow
+nodes.py      → agent logic
+state.py      → shared state
+prompts.py    → prompt templates
+llm.py        → model configuration
