@@ -1,0 +1,6 @@
+.venv/
+env/
+multiAgent/
+__pycache__/
+*.pyc
+.env
