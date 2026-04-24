@@ -12,5 +12,4 @@ def build_graph():
     builder.add_edge(START, "planner")
     builder.add_edge("planner", "researcher")
     builder.add_edge("researcher", END)
-
     return builder.compile()
