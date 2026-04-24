@@ -12,30 +12,3 @@ Rules:
 User question:
 {user_query}
 """
-
-
-RESEARCH_PROMPT = """
-You are a research agent in a multi-agent research system.
-
-You are given a refined research query. Produce:
-1. Short research notes
-2. A final answer
-
-Requirements:
-- Be clear and structured
-- Keep the answer practical
-- Do not mention that you are an AI
-- Do not invent fake sources
-- Since this is Day 1 and no retrieval tools are connected yet, answer based on general knowledge only
-
-Refined query:
-{refined_query}
-
-Return in this exact format:
-
-RESEARCH_NOTES:
-<your short notes>
-
-FINAL_ANSWER:
-<your final answer>
-"""

@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 st.title("🧠 Multi-Agent Research System")
-st.write("Day 1: Planner + Researcher workflow built with LangGraph")
+st.write("Day 2: Planner + Tool-Using Research Agent with LangGraph")
 
 if "run_history" not in st.session_state:
     st.session_state.run_history = []
@@ -26,12 +26,13 @@ if st.button("Run Research Workflow", use_container_width=True):
         try:
             graph = build_graph()
 
-            with st.spinner("Running planner and research nodes..."):
+            with st.spinner("Running planner and research agent..."):
                 result = graph.invoke(
                     {
                         "user_query": query,
                         "refined_query": "",
                         "research_notes": "",
+                        "tool_results": "",
                         "final_answer": ""
                     }
                 )
@@ -54,9 +55,12 @@ if st.button("Run Research Workflow", use_container_width=True):
                 st.subheader("Refined Query")
                 st.write(result["refined_query"])
 
-            with col2:
                 st.subheader("Research Notes")
                 st.write(result["research_notes"])
+
+            with col2:
+                st.subheader("Tool Results")
+                st.write(result["tool_results"])
 
             st.subheader("Final Answer")
             st.write(result["final_answer"])
