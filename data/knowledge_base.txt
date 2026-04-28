@@ -1,0 +1,14 @@
+Generative AI in Customer Support:
+Generative AI is used in customer support for automated chatbots, ticket summarization, email drafting, agent assist, multilingual support, and knowledge base search. It reduces response time, improves agent productivity, and helps maintain consistent support quality.
+
+AI in Healthcare:
+AI in healthcare is used for medical imaging, diagnosis support, patient triage, clinical documentation, drug discovery, personalized medicine, and hospital workflow automation. Key concerns include data privacy, bias, explainability, patient safety, and regulatory compliance.
+
+AI for Small Businesses:
+Small businesses use AI for marketing content creation, customer support automation, sales email drafting, demand forecasting, invoice processing, analytics, and workflow automation. AI can reduce manual work and help small teams operate more efficiently.
+
+Risks of AI Adoption:
+Common risks of AI adoption include hallucination, data leakage, bias, poor explainability, overdependence on automation, security concerns, and compliance issues. Strong governance, human review, monitoring, and source-grounding help reduce these risks.
+
+RAG Systems:
+Retrieval-Augmented Generation, or RAG, improves LLM answers by retrieving relevant external knowledge before generating a response. A typical RAG pipeline includes document loading, chunking, embedding, vector storage, retrieval, and answer generation using retrieved context.

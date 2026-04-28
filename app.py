@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 st.title("🧠 Multi-Agent Research System")
-st.write("Day 2: Planner + Tool-Using Research Agent with LangGraph")
+st.write("Day 3: Planner + RAG Retriever + Researcher with LangGraph")
 
 if "run_history" not in st.session_state:
     st.session_state.run_history = []
@@ -26,11 +26,12 @@ if st.button("Run Research Workflow", use_container_width=True):
         try:
             graph = build_graph()
 
-            with st.spinner("Running planner and research agent..."):
+            with st.spinner("Running planner, retriever, and researcher..."):
                 result = graph.invoke(
                     {
                         "user_query": query,
                         "refined_query": "",
+                        "retrieved_context": "",
                         "research_notes": "",
                         "tool_results": "",
                         "final_answer": ""
@@ -59,8 +60,11 @@ if st.button("Run Research Workflow", use_container_width=True):
                 st.write(result["research_notes"])
 
             with col2:
-                st.subheader("Tool Results")
+                st.subheader("Retrieval Status")
                 st.write(result["tool_results"])
+
+                with st.expander("View Retrieved Context"):
+                    st.write(result["retrieved_context"])
 
             st.subheader("Final Answer")
             st.write(result["final_answer"])
@@ -70,6 +74,7 @@ if st.button("Run Research Workflow", use_container_width=True):
 
 with st.sidebar:
     st.header("Run History")
+
     if st.session_state.run_history:
         for i, item in enumerate(reversed(st.session_state.run_history), start=1):
             st.write(f"**{i}.** {item['user_query']}")

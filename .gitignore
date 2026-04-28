@@ -1,6 +1,5 @@
-.venv/
-env/
 multiAgent/
 __pycache__/
 *.pyc
 .env
+faiss_index/
