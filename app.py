@@ -1,3 +1,4 @@
+import json
 import streamlit as st
 from graph import build_graph
 
@@ -8,7 +9,7 @@ st.set_page_config(
 )
 
 st.title("🧠 Multi-Agent Research System")
-st.write("Day 3: Planner + RAG Retriever + Researcher with LangGraph")
+st.write("Production-ready Multi-Agent RAG system using LangGraph, ChromaDB, and OpenAI.")
 
 if "run_history" not in st.session_state:
     st.session_state.run_history = []
@@ -16,7 +17,7 @@ if "run_history" not in st.session_state:
 query = st.text_area(
     "Enter your research query",
     height=150,
-    placeholder="Example: How is generative AI used in customer support?"
+    placeholder="Example: What is RAG and why is it useful?"
 )
 
 if st.button("Run Research Workflow", use_container_width=True):
@@ -33,15 +34,17 @@ if st.button("Run Research Workflow", use_container_width=True):
                         "refined_query": "",
                         "retrieved_context": "",
                         "research_notes": "",
-                        "tool_results": "",
-                        "final_answer": ""
+                        "sources": "",
+                        "final_answer": "",
+                        "confidence": ""
                     }
                 )
 
             st.session_state.run_history.append(
                 {
                     "user_query": result["user_query"],
-                    "refined_query": result["refined_query"]
+                    "refined_query": result["refined_query"],
+                    "confidence": result["confidence"]
                 }
             )
 
@@ -56,18 +59,39 @@ if st.button("Run Research Workflow", use_container_width=True):
                 st.subheader("Refined Query")
                 st.write(result["refined_query"])
 
+                st.subheader("Confidence")
+                st.write(result["confidence"])
+
+            with col2:
                 st.subheader("Research Notes")
                 st.write(result["research_notes"])
 
-            with col2:
-                st.subheader("Retrieval Status")
-                st.write(result["tool_results"])
+                st.subheader("Sources")
+                st.write(result["sources"])
 
-                with st.expander("View Retrieved Context"):
-                    st.write(result["retrieved_context"])
+            with st.expander("View Retrieved Context"):
+                st.write(result["retrieved_context"])
 
             st.subheader("Final Answer")
             st.write(result["final_answer"])
+
+            report = {
+                "user_query": result["user_query"],
+                "refined_query": result["refined_query"],
+                "research_notes": result["research_notes"],
+                "sources": result["sources"],
+                "confidence": result["confidence"],
+                "final_answer": result["final_answer"],
+                "retrieved_context": result["retrieved_context"]
+            }
+
+            st.download_button(
+                label="Download Research Report JSON",
+                data=json.dumps(report, indent=2),
+                file_name="research_report.json",
+                mime="application/json",
+                use_container_width=True
+            )
 
         except Exception as e:
             st.error(f"Something went wrong: {e}")
@@ -77,7 +101,8 @@ with st.sidebar:
 
     if st.session_state.run_history:
         for i, item in enumerate(reversed(st.session_state.run_history), start=1):
-            st.write(f"**{i}.** {item['user_query']}")
+            st.write(f"**{i}. {item['user_query']}**")
             st.caption(f"Refined: {item['refined_query']}")
+            st.caption(f"Confidence: {item['confidence']}")
     else:
         st.caption("No runs yet.")

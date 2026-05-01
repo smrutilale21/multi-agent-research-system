@@ -1,5 +1,16 @@
-multiAgent/
+# Chroma DB
+chroma_db/
+chroma.sqlite3
+*.bin
+
+# Logs
+logs/
+*.log
+
+# Python
 __pycache__/
 *.pyc
+
+# Env
 .env
-faiss_index/
+multiAgent/

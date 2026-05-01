@@ -1,17 +1,21 @@
 import os
-from langchain_community.vectorstores import FAISS
+from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from config import get_openai_api_key
+from logger import setup_logger
 
-FAISS_DIR = "faiss_index"
+logger = setup_logger()
+
+CHROMA_DIR = "chroma_db"
+COLLECTION_NAME = "research_knowledge_base"
 DATA_FILE = "data/knowledge_base.txt"
 
 
 def load_knowledge_base() -> str:
     if not os.path.exists(DATA_FILE):
-        raise FileNotFoundError(f"{DATA_FILE} not found. Please create the file first.")
+        raise FileNotFoundError(f"{DATA_FILE} not found. Please create it first.")
 
     with open(DATA_FILE, "r", encoding="utf-8") as file:
         return file.read()
@@ -24,7 +28,9 @@ def create_documents(text: str) -> list[Document]:
     )
 
     chunks = splitter.split_text(text)
+
     documents = []
+
     for index, chunk in enumerate(chunks):
         documents.append(
             Document(
@@ -46,24 +52,28 @@ def get_embeddings() -> OpenAIEmbeddings:
     )
 
 
-def get_vector_store() -> FAISS:
+def get_vector_store() -> Chroma:
     embeddings = get_embeddings()
 
-    if os.path.exists(FAISS_DIR):
-        return FAISS.load_local(
-            folder_path=FAISS_DIR,
-            embeddings=embeddings,
-            allow_dangerous_deserialization=True
-        )
+    vector_store = Chroma(
+        collection_name=COLLECTION_NAME,
+        persist_directory=CHROMA_DIR,
+        embedding_function=embeddings
+    )
+
+    existing_count = vector_store._collection.count()
+
+    if existing_count > 0:
+        logger.info(f"Loaded existing Chroma collection with {existing_count} documents")
+        return vector_store
+
+    logger.info("Creating new Chroma vector store")
 
     text = load_knowledge_base()
     documents = create_documents(text)
 
-    vector_store = FAISS.from_documents(
-        documents=documents,
-        embedding=embeddings
-    )
+    vector_store.add_documents(documents)
 
-    vector_store.save_local(FAISS_DIR)
+    logger.info(f"Added {len(documents)} documents to Chroma")
 
     return vector_store
