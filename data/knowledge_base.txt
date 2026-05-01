@@ -12,3 +12,6 @@ Common risks of AI adoption include hallucination, data leakage, bias, poor expl
 
 RAG Systems:
 Retrieval-Augmented Generation, or RAG, improves LLM answers by retrieving relevant external knowledge before generating a response. A typical RAG pipeline includes document loading, chunking, embedding, vector storage, retrieval, and answer generation using retrieved context.
+
+Multi-Agent AI Systems:
+A multi-agent AI system uses multiple specialized nodes or agents to complete a task. One node may plan the query, another may retrieve information, and another may synthesize the final answer. This improves modularity, control, reliability, and explainability.
