@@ -1,5 +1,4 @@
-from typing import TypedDict
-from typing import List
+from typing import List, TypedDict
 
 
 class ResearchState(TypedDict):

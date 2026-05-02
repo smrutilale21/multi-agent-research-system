@@ -1,8 +1,10 @@
 import os
+
 from langchain_chroma import Chroma
+from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.documents import Document
+
 from config import get_openai_api_key
 from logger import setup_logger
 
@@ -22,10 +24,7 @@ def load_knowledge_base() -> str:
 
 
 def create_documents(text: str) -> list[Document]:
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=80
-    )
+    splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=80)
 
     chunks = splitter.split_text(text)
 
@@ -34,11 +33,7 @@ def create_documents(text: str) -> list[Document]:
     for index, chunk in enumerate(chunks):
         documents.append(
             Document(
-                page_content=chunk,
-                metadata={
-                    "source": DATA_FILE,
-                    "chunk_id": index
-                }
+                page_content=chunk, metadata={"source": DATA_FILE, "chunk_id": index}
             )
         )
 
@@ -47,8 +42,7 @@ def create_documents(text: str) -> list[Document]:
 
 def get_embeddings() -> OpenAIEmbeddings:
     return OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key=get_openai_api_key()
+        model="text-embedding-3-small", api_key=get_openai_api_key()
     )
 
 
@@ -58,13 +52,15 @@ def get_vector_store() -> Chroma:
     vector_store = Chroma(
         collection_name=COLLECTION_NAME,
         persist_directory=CHROMA_DIR,
-        embedding_function=embeddings
+        embedding_function=embeddings,
     )
 
     existing_count = vector_store._collection.count()
 
     if existing_count > 0:
-        logger.info(f"Loaded existing Chroma collection with {existing_count} documents")
+        logger.info(
+            f"Loaded existing Chroma collection with {existing_count} documents"
+        )
         return vector_store
 
     logger.info("Creating new Chroma vector store")

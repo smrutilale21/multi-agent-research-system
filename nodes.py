@@ -1,10 +1,10 @@
 from llm import get_llm
+from logger import setup_logger
 from prompts import PLANNER_PROMPT, RAG_RESEARCH_PROMPT, RETRY_RAG_RESEARCH_PROMPT
 from retriever import retrieve_context
-from state import ResearchState
 from schemas import ResearchResult
+from state import ResearchState
 from utils import clean_json_response, safe_parse_json
-from logger import setup_logger
 
 logger = setup_logger()
 llm = get_llm()
@@ -22,9 +22,7 @@ def planner_node(state: ResearchState) -> dict:
 
     logger.info(f"Refined query: {refined_query}")
 
-    return {
-        "refined_query": refined_query
-    }
+    return {"refined_query": refined_query}
 
 
 def retriever_node(state: ResearchState) -> dict:
@@ -33,9 +31,7 @@ def retriever_node(state: ResearchState) -> dict:
     refined_query = state["refined_query"]
     retrieved_context = retrieve_context(refined_query, k=3)
 
-    return {
-        "retrieved_context": retrieved_context
-    }
+    return {"retrieved_context": retrieved_context}
 
 
 def research_node(state: ResearchState) -> dict:
@@ -45,8 +41,7 @@ def research_node(state: ResearchState) -> dict:
     retrieved_context = state["retrieved_context"]
 
     prompt = RAG_RESEARCH_PROMPT.format(
-        refined_query=refined_query,
-        retrieved_context=retrieved_context
+        refined_query=refined_query, retrieved_context=retrieved_context
     )
 
     try:
@@ -58,12 +53,14 @@ def research_node(state: ResearchState) -> dict:
             parsed = safe_parse_json(cleaned)
 
         except Exception:
-            logger.warning("Initial JSON parsing failed. Retrying with stricter prompt.")
+            logger.warning(
+                "Initial JSON parsing failed. Retrying with stricter prompt."
+            )
 
             retry_prompt = RETRY_RAG_RESEARCH_PROMPT.format(
                 bad_output=raw_output,
                 refined_query=refined_query,
-                retrieved_context=retrieved_context
+                retrieved_context=retrieved_context,
             )
 
             retry_response = llm.invoke(retry_prompt)
@@ -78,7 +75,7 @@ def research_node(state: ResearchState) -> dict:
             "research_notes": result.research_notes,
             "final_answer": result.final_answer,
             "sources": "\n".join(result.sources),
-            "confidence": result.confidence
+            "confidence": result.confidence,
         }
 
     except Exception as e:
@@ -88,5 +85,5 @@ def research_node(state: ResearchState) -> dict:
             "research_notes": "Research failed due to an internal error.",
             "final_answer": f"Something went wrong while generating the answer: {e}",
             "sources": "No sources available.",
-            "confidence": "Low"
+            "confidence": "Low",
         }

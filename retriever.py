@@ -1,5 +1,5 @@
-from vector_store import get_vector_store
 from logger import setup_logger
+from vector_store import get_vector_store
 
 logger = setup_logger()
 

@@ -1,11 +1,11 @@
 import json
+
 import streamlit as st
+
 from graph import build_graph
 
 st.set_page_config(
-    page_title="Multi-Agent Research System",
-    page_icon="🧠",
-    layout="wide"
+    page_title="Multi-Agent Research System", page_icon="🧠", layout="wide"
 )
 
 st.title("🧠 Multi-Agent Research System")
@@ -39,7 +39,7 @@ with st.sidebar:
 query = st.text_area(
     "Enter your research query",
     height=150,
-    placeholder="Example: What is RAG and why is it useful?"
+    placeholder="Example: What is RAG and why is it useful?",
 )
 
 if st.button("Generate Research Report", use_container_width=True):
@@ -58,7 +58,7 @@ if st.button("Generate Research Report", use_container_width=True):
                         "research_notes": "",
                         "sources": "",
                         "final_answer": "",
-                        "confidence": ""
+                        "confidence": "",
                     }
                 )
 
@@ -66,7 +66,7 @@ if st.button("Generate Research Report", use_container_width=True):
                 {
                     "user_query": result["user_query"],
                     "refined_query": result["refined_query"],
-                    "confidence": result["confidence"]
+                    "confidence": result["confidence"],
                 }
             )
 
@@ -90,7 +90,7 @@ if st.button("Generate Research Report", use_container_width=True):
 
                 st.subheader("Sources")
                 st.write(result["sources"])
-                
+
                 st.subheader("Retrieved Context")
                 with st.expander("View Retrieved Context"):
                     st.write(result["retrieved_context"])
@@ -105,7 +105,7 @@ if st.button("Generate Research Report", use_container_width=True):
                 "sources": result["sources"],
                 "confidence": result["confidence"],
                 "retrieved_context": result["retrieved_context"],
-                "final_answer": result["final_answer"]
+                "final_answer": result["final_answer"],
             }
 
             st.download_button(
@@ -113,7 +113,7 @@ if st.button("Generate Research Report", use_container_width=True):
                 data=json.dumps(report, indent=2),
                 file_name="research_report.json",
                 mime="application/json",
-                use_container_width=True
+                use_container_width=True,
             )
 
         except Exception as e:
