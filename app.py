@@ -9,10 +9,32 @@ st.set_page_config(
 )
 
 st.title("🧠 Multi-Agent Research System")
-st.write("Production-ready Multi-Agent RAG system using LangGraph, ChromaDB, and OpenAI.")
+st.write(
+    "Production-oriented research assistant using LangGraph, RAG, ChromaDB, and structured outputs."
+)
 
 if "run_history" not in st.session_state:
     st.session_state.run_history = []
+
+with st.sidebar:
+    st.header("Sample Questions")
+
+    st.write("- What is RAG and why is it useful?")
+    st.write("- How is generative AI used in customer support?")
+    st.write("- What are the risks of AI adoption?")
+    st.write("- Explain how a multi-agent system works.")
+
+    st.divider()
+
+    st.header("Run History")
+
+    if st.session_state.run_history:
+        for i, item in enumerate(reversed(st.session_state.run_history), start=1):
+            st.write(f"**{i}.** {item['user_query']}")
+            st.caption(f"Refined: {item['refined_query']}")
+            st.caption(f"Confidence: {item['confidence']}")
+    else:
+        st.caption("No runs yet.")
 
 query = st.text_area(
     "Enter your research query",
@@ -20,7 +42,7 @@ query = st.text_area(
     placeholder="Example: What is RAG and why is it useful?"
 )
 
-if st.button("Run Research Workflow", use_container_width=True):
+if st.button("Generate Research Report", use_container_width=True):
     if not query.strip():
         st.error("Please enter a query.")
     else:
@@ -68,9 +90,10 @@ if st.button("Run Research Workflow", use_container_width=True):
 
                 st.subheader("Sources")
                 st.write(result["sources"])
-
-            with st.expander("View Retrieved Context"):
-                st.write(result["retrieved_context"])
+                
+                st.subheader("Retrieved Context")
+                with st.expander("View Retrieved Context"):
+                    st.write(result["retrieved_context"])
 
             st.subheader("Final Answer")
             st.write(result["final_answer"])
@@ -81,8 +104,8 @@ if st.button("Run Research Workflow", use_container_width=True):
                 "research_notes": result["research_notes"],
                 "sources": result["sources"],
                 "confidence": result["confidence"],
-                "final_answer": result["final_answer"],
-                "retrieved_context": result["retrieved_context"]
+                "retrieved_context": result["retrieved_context"],
+                "final_answer": result["final_answer"]
             }
 
             st.download_button(
@@ -95,14 +118,3 @@ if st.button("Run Research Workflow", use_container_width=True):
 
         except Exception as e:
             st.error(f"Something went wrong: {e}")
-
-with st.sidebar:
-    st.header("Run History")
-
-    if st.session_state.run_history:
-        for i, item in enumerate(reversed(st.session_state.run_history), start=1):
-            st.write(f"**{i}. {item['user_query']}**")
-            st.caption(f"Refined: {item['refined_query']}")
-            st.caption(f"Confidence: {item['confidence']}")
-    else:
-        st.caption("No runs yet.")
