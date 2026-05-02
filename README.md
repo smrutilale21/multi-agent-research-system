@@ -19,23 +19,27 @@ The system is designed with reliability, modularity, and scalability in mind.
 
 ## 🏗️ Architecture
 
+```text
 User Query
-↓
+    ↓
 Planner Agent (Query Refinement)
-↓
+    ↓
 Retriever (RAG using ChromaDB → Retrieved Context)
-↓
+    ↓
 Research Agent (Generates Research Notes)
-↓
+    ↓
 Answer Generation (Final Answer)
-↓
+    ↓
 Structured Output (Confidence + Sources + JSON Export)
+```
 
 ---
 
 ## 🏗️ Architecture Diagram
 
 ![Architecture](assets/architecture_diagram.png)
+
+---
 
 ## 🔄 Workflow
 
@@ -45,6 +49,24 @@ Structured Output (Confidence + Sources + JSON Export)
 4. Research agent analyzes the context and generates structured notes
 5. Final answer is synthesized based on retrieved knowledge
 6. System outputs confidence score, sources, and downloadable JSON report
+
+---
+
+## 🧠 System Design Insight
+
+This system separates responsibilities across multiple agents:
+
+* **Planner Agent** → Improves query quality and clarity
+* **Retriever Agent** → Ensures responses are grounded in real data (RAG)
+* **Research Agent** → Synthesizes retrieved context into meaningful insights
+* **Answer Generator** → Produces structured, reliable output
+
+This modular design improves:
+
+* Scalability
+* Maintainability
+* Debuggability
+* Response accuracy
 
 ---
 
@@ -91,6 +113,22 @@ Structured Output (Confidence + Sources + JSON Export)
 
 ---
 
+## 🧪 Example Output
+
+**Query:** What is RAG?
+
+**Answer:**
+Retrieval-Augmented Generation (RAG) enhances LLM responses by retrieving relevant context from external knowledge sources before generating answers, improving accuracy and grounding.
+
+**Confidence:** 0.92
+
+**Sources:**
+
+* Document 1
+* Document 2
+
+---
+
 ## 📸 Demo Screenshots
 
 ### 🏠 Home Screen
@@ -118,9 +156,27 @@ Structured Output (Confidence + Sources + JSON Export)
 ## ⚙️ Setup Instructions
 
 ```bash
-git clone <https://github.com/smrutilale21/multi-agent-research-system>
+git clone https://github.com/smrutilale21/multi-agent-research-system.git
 cd multiAgent-system
 pip install -r requirements.txt
+```
+
+---
+
+## 🔐 Environment Setup
+
+Create a `.env` file in the root directory:
+
+```env
+OPENAI_API_KEY=your_api_key_here
+OPENAI_MODEL=gpt-4o-mini
+```
+
+---
+
+## ▶️ Run the Application
+
+```bash
 streamlit run app.py
 ```
 
