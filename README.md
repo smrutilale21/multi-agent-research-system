@@ -70,6 +70,13 @@ This modular design improves:
 
 ---
 
+# Multi-Agent Research System
+
+## Live Demo
+[Open App](https://agentic-research-system-21.streamlit.app)
+
+---
+
 ## 🧠 Key Features
 
 * Multi-agent workflow using LangGraph
