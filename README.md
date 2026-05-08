@@ -50,12 +50,12 @@ This separation of concerns ensures that each component operates independently, 
 
 The system also incorporates production-oriented considerations such as:
 
-Structured output validation using Pydantic
-Retry mechanisms for handling LLM inconsistencies
-Logging for observability and debugging
-Modular design for easy extension of agents or workflows
+- Structured output validation using Pydantic
+- Retry mechanisms for handling LLM inconsistencies
+- Logging for observability and debugging
+- Modular design for easy extension of agents or workflows
 
-Overall, the architecture demonstrates how multi-agent systems can be used to build reliable, production-style AI applications that go beyond simple prompt-based LLM applications.
+Overall, the architecture demonstrates how multi-agent systems can be used to build reliable, production-style AI applications that go beyond simple prompt-based LLM usage.
 
 ---
 
