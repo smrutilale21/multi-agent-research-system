@@ -6,18 +6,18 @@ A production-oriented multi-agent AI system that performs intelligent research u
 
 ## 🚀 Overview
 
-This system uses a multi-agent architecture to process user queries through multiple stages:
+This system implements a structured multi-agent workflow to process user queries through planning, retrieval, reasoning, and final answer generation.
 
 1. **Planner Agent** → Refines the user query
 2. **Retriever Agent** → Fetches relevant context using RAG (ChromaDB + embeddings)
 3. **Research Agent** → Generates structured research notes
-4. **Answer Generator** → Produces final answer with confidence and sources
+4. **Response Generator** → Produces final answer with confidence and sources
 
 The system is designed with reliability, modularity, and scalability in mind.
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture Diagram (with image)
 
 ```text
 User Query
@@ -32,10 +32,6 @@ Answer Generation (Final Answer)
     ↓
 Structured Output (Confidence + Sources + JSON Export)
 ```
-
----
-
-## 🏗️ Architecture Diagram
 
 ![Architecture](assets/architecture_diagram.png)
 
@@ -59,7 +55,7 @@ This system separates responsibilities across multiple agents:
 * **Planner Agent** → Improves query quality and clarity
 * **Retriever Agent** → Ensures responses are grounded in real data (RAG)
 * **Research Agent** → Synthesizes retrieved context into meaningful insights
-* **Answer Generator** → Produces structured, reliable output
+* **Response Generator** → Produces structured, reliable output
 
 This modular design improves:
 
@@ -94,6 +90,7 @@ This modular design improves:
 * Implemented RAG pipeline with persistent ChromaDB
 * Built structured output system with validation and retries
 * Developed an end-to-end Streamlit application for research automation
+* Designed with production-oriented principles including modular agents, observability, and structured output validation.
 
 ---
 
