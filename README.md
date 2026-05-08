@@ -4,19 +4,6 @@ A production-oriented multi-agent AI system that performs intelligent research u
 
 ---
 
-## 🚀 Overview
-
-This system implements a structured multi-agent workflow to process user queries through planning, retrieval, reasoning, and final answer generation.
-
-1. **Planner Agent** → Refines the user query
-2. **Retriever Agent** → Fetches relevant context using RAG (ChromaDB + embeddings)
-3. **Research Agent** → Generates structured research notes
-4. **Response Generator** → Produces final answer with confidence and sources
-
-The system is designed with reliability, modularity, and scalability in mind.
-
----
-
 ## 🏗️ Architecture Diagram (with image)
 
 ```text
@@ -28,7 +15,7 @@ Retriever (RAG using ChromaDB → Retrieved Context)
     ↓
 Research Agent (Generates Research Notes)
     ↓
-Answer Generation (Final Answer)
+Response Generator (Final Response)
     ↓
 Structured Output (Confidence + Sources + JSON Export)
 ```
@@ -43,26 +30,32 @@ Structured Output (Confidence + Sources + JSON Export)
 2. Planner agent refines the query for better retrieval
 3. Retriever fetches relevant context from ChromaDB using embeddings
 4. Research agent analyzes the context and generates structured notes
-5. Final answer is synthesized based on retrieved knowledge
+5. Final response is synthesized based on retrieved knowledge
 6. System outputs confidence score, sources, and downloadable JSON report
 
 ---
 
 ## 🧠 System Design Insight
 
-This system separates responsibilities across multiple agents:
+This system is designed as a modular multi-agent architecture to enable scalable and reliable intelligent research workflows using LLMs and Retrieval-Augmented Generation (RAG).
 
-* **Planner Agent** → Improves query quality and clarity
-* **Retriever Agent** → Ensures responses are grounded in real data (RAG)
-* **Research Agent** → Synthesizes retrieved context into meaningful insights
-* **Response Generator** → Produces structured, reliable output
+The architecture separates responsibilities across specialized agents to improve clarity, maintainability, and extensibility:
 
-This modular design improves:
+- Planner Agent → Refines and structures the user query for better downstream processing
+- Retriever Agent → Performs semantic retrieval using embeddings over a persistent ChromaDB vector store
+- Research Agent → Synthesizes retrieved context into structured insights and research notes
+- Response Generator → Produces the final structured response with confidence score and sources
 
-* Scalability
-* Maintainability
-* Debuggability
-* Response accuracy
+This separation of concerns ensures that each component operates independently, making the system easier to debug, scale, and improve over time.
+
+The system also incorporates production-oriented considerations such as:
+
+Structured output validation using Pydantic
+Retry mechanisms for handling LLM inconsistencies
+Logging for observability and debugging
+Modular design for easy extension of agents or workflows
+
+Overall, the architecture demonstrates how multi-agent systems can be used to build reliable, production-style AI applications that go beyond simple prompt-based LLM applications.
 
 ---
 
@@ -86,11 +79,10 @@ This modular design improves:
 
 ## 🌟 Highlights
 
-* Designed a multi-agent AI system using LangGraph
+* Designed a multi-agent AI system using LangGraph with modular agents, observability, and structured output validation
 * Implemented RAG pipeline with persistent ChromaDB
 * Built structured output system with validation and retries
 * Developed an end-to-end Streamlit application for research automation
-* Designed with production-oriented principles including modular agents, observability, and structured output validation.
 
 ---
 
@@ -120,7 +112,8 @@ This modular design improves:
 **Query:** What is RAG?
 
 **Answer:**
-Retrieval-Augmented Generation (RAG) enhances LLM responses by retrieving relevant context from external knowledge sources before generating answers, improving accuracy and grounding.
+Retrieval-Augmented Generation (RAG) enhances LLM responses by retrieving relevant context from external knowledge sources 
+before generating answers, improving accuracy and grounding.
 
 **Confidence:** 0.92
 
@@ -203,6 +196,6 @@ streamlit run app.py
 
 ## 📌 Conclusion
 
-This project demonstrates a real-world implementation of a multi-agent AI system using RAG, structured outputs, and modular architecture — showcasing strong understanding of scalable and production-ready AI system design.
+This project demonstrates a real-world implementation of a multi-agent AI system using RAG, structured outputs, and modular architecture — showcasing strong understanding of scalable, production-ready AI system design.
 
 ---
